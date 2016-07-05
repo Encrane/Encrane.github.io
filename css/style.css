@@ -345,7 +345,7 @@ article .entry pre {
 }
 article .entry code {
   background: #eee;
-  color: #d1d1c9;
+  color: #666;
   padding: 0 5px;
   margin: 0 2px;
   font-size: 0.9em;
@@ -369,6 +369,7 @@ article .entry pre code {
   border: none;
   -webkit-border-radius: 0;
   border-radius: 0;
+  color: #d1d1c9;
 }
 article .entry ul,
 article .entry ol,
