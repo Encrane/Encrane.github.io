@@ -14,7 +14,7 @@ body {
   color: #444;
   font-family: Tahoma, "Lantinghei SC", "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "\5FAE\8F6F\96C5\9ED1", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
   font-size: 14px;
-  background: url("images/bg.png") no-repeat 98% 2%;
+  background: url("../images/bg.png") no-repeat 98% 2%;
   background-attachment: fixed;
 }
 @media screen and (max-width: 1260px) {
@@ -699,7 +699,7 @@ article footer .addthis iframe {
   padding: 50px 0 0 0;
 }
 #sidebar #logo {
-  background: url("images/avatar.png") center;
+  background: url("../images/avatar.png") center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -webkit-background-size: cover;
