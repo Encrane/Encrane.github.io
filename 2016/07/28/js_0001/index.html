@@ -6,7 +6,7 @@
   <title>创建对象的7种模式 | 雪觅音</title>
   <meta name="author" content="Beibei Deng">
   
-  <meta name="description" content="本文探讨了创建自定义对象的7中模式">
+  <meta name="description" content="本文探讨了创建自定义对象的7种模式">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -64,7 +64,7 @@
     </header>
     <div class="entry">
       
-        <p>本文探讨了创建自定义对象的7中模式</p>
+        <p>本文探讨了创建自定义对象的7种模式</p>
 <a id="more"></a>
 <h4 id="1-工厂模式"><a href="#1-工厂模式" class="headerlink" title="1. 工厂模式"></a>1. 工厂模式</h4><p>工厂模式抽象创建具体对象的过程，在ECMAScript中用函数来封装以特定接口创建对象的细节。举个例子：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">createPerson</span>(<span class="params">name, age, job</span>) </span>&#123;</div><div class="line">	<span class="keyword">var</span> o = <span class="keyword">new</span> <span class="built_in">Object</span>();</div><div class="line">	o.name = name;</div><div class="line">	o.age = age;</div><div class="line">	o.job = job;</div><div class="line">	o.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		alert(<span class="keyword">this</span>.name);</div><div class="line">	&#125;;</div><div class="line">	<span class="keyword">return</span> o;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> person = createPerson(<span class="string">'Mona'</span>, <span class="number">18</span>, <span class="string">'Font Engineer'</span>);</div></pre></td></tr></table></figure>
