@@ -1,0 +1,360 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>创建对象的7种模式 | 雪觅音</title>
+  <meta name="author" content="Beibei Deng">
+  
+  <meta name="description" content="本文探讨了创建自定义对象的7中模式">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="创建对象的7种模式"/>
+  <meta property="og:site_name" content="雪觅音"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon" type="image/x-ico">
+  <link rel="alternate" href="atom.xml" title="雪觅音" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">雪觅音</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<div class="search alignright">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon">
+        
+  
+  <div class="tags">
+    <a href="/tags/JavaScript/">JavaScript</a>
+  </div>
+ 
+        </div>
+        <time datetime="2016-07-28T09:07:36.000Z"><a href="/2016/07/28/js_0001/">2016-07-28</a></time>
+               
+      
+  
+    <h1 class="title">创建对象的7种模式</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>本文探讨了创建自定义对象的7中模式</p>
+<a id="more"></a>
+<p>####1. 工厂模式</p>
+<p>工厂模式抽象创建具体对象的过程，在ECMAScript中用函数来封装以特定接口创建对象的细节。举个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function createPerson(name, age, job) &#123;</div><div class="line">	var o = new Object();</div><div class="line">	o.name = name;</div><div class="line">	o.age = age;</div><div class="line">	o.job = job;</div><div class="line">	o.sayName = function() &#123;</div><div class="line">		alert(this.name);</div><div class="line">	&#125;;</div><div class="line">	return o;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var person = createPerson(&apos;Mona&apos;, 18, &apos;Font Engineer&apos;);</div></pre></td></tr></table></figure>
+<p>可以多次调用函数构建一个对象，每次都会返回包含三个属性和一个方法的对象，但是工厂模式虽然解决了创建多个相似对象的问题，却没有解决对象识别的问题。</p>
+<p>####2.构造函数模式</p>
+<p>ECMAScript的构造函数可以创建特定类型的对象，如Object等原生构造函数运行时会自动出现在执行环境中。同时，也可以创建自定义的构造函数，从而定义自定义对象类型的属性和方法。举个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function Person(name, age, job) &#123;			</div><div class="line">	this.name = name;</div><div class="line">	this.age = age;</div><div class="line">	this.job = job;</div><div class="line">	this.sayName = sayName;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function sayName() &#123;</div><div class="line">	alert(this.name);</div><div class="line">&#125;</div><div class="line"></div><div class="line">var person = new Person(&apos;Mona&apos;, 18, &apos;Font Engineer&apos;);</div></pre></td></tr></table></figure>
+<p>与工厂模式不同，构造函数模式的特点有如下几点：</p>
+<ul>
+<li><p>构造函数的函数名以大写字母开头，这个做法借鉴自其它OO语言，主要是为了区别于ECMAScript的其它函数，因为构造函数本身是函数，只是可以用来创建对象；</p>
+</li>
+<li><p>没有显示创建对象；</p>
+</li>
+<li><p>创建函数实例，必须使用new操作符，使用new调用，将构造函数的作用域赋给了新对象；</p>
+</li>
+<li><p>直接将属性和方法赋给了this对象；</p>
+</li>
+<li><p>没有return语句；</p>
+</li>
+<li><p>创建的对象既是Object的实例，也是Person的实例；</p>
+</li>
+</ul>
+<p>创建自定义的构造函数意味着可以将它的实例标识为一种特定的类型，这正是构造函数胜过工厂模式的地方。但是构造函数创建的对象方法，如上例子是在全局作用域中定义，但是却只能被某个对象调用，这让全局作用域失去了其作用，另外如果对象要定义很多方法，那么就要定义多个全局函数，导致引用类型的封装性差。</p>
+<p>####3.原型模式</p>
+<p>每个函数都有prototype（原型）属性，这个属性是一个指针，指向一个对象，这个对象的用途包含可以由特定类型的所有实例共享的属性和方法，prototype就是通过调用构造函数而创建的那个对象实例的原型对象。不必再构造函数中定义对象实例的信息，而是将这些信息直接添加到原型对象中。举个例子：</p>
+<pre><code>function Person() {
+}
+
+  Person.prototype = {
+      name: &apos;Mona&apos;,
+      age: 18,
+      job: &apos;Font Engineer&apos;,
+      sayName: function(){
+          alert(this.name);
+      }
+  };
+
+  var person1 = new Person();
+  var person2 = new Person();
+
+  alert(person1.sayName == person2.sayName); //true
+</code></pre><p>原型模式的特点：</p>
+<ul>
+<li><p>与构造函数模式不同，新对象的属性和方法由所有实例共享；</p>
+</li>
+<li><p>当为对象实例添加一个属性时，这个属性会屏蔽原型对象中保存的同名属性，阻止访问原型中的属性，但不会修改原型属性；</p>
+</li>
+<li><p>由于在原型中查找值是一次搜索过程，实例与原型之间的连接是一个指针而不是副本，所以可以先创建实例后添加原型属性和方法，且对原型对象所做的修改都可以在实例上反映出来（但重写原型对象除外）；</p>
+</li>
+<li><p>不仅可以创建自定义类型，原生引用类型也是用原生模式创建，通过原生对象的原型，可以获取默认方法，也可以定义新方法。</p>
+</li>
+</ul>
+<p>原生模式的缺陷：</p>
+<ul>
+<li><p>省略了为构造函数传递初始化参数环节，所有实例在默认情况下都取得相同的属性值；</p>
+</li>
+<li><p>最大的问题是，原型所有属性被实例共享，在包含引用类型值的属性，而实例又需要有属于自己的属性，这个问题会比较突出。</p>
+</li>
+</ul>
+<p>####4.组合使用构造函数模式和原型模式</p>
+<p>构造函数模式定义实例属性，原型模式定义方法和共享的属性，这样，每个实例都有自己的实例属性副本，同时又共享方法的引用，最大限度地节省了内存。另外，此模式还支持向构造函数传递参数。举个例子：</p>
+<pre><code>JavaScript
+      function Person(name, age, job) {
+          this.name = name;
+          this.age = age;
+          this.job = job;
+          this.friends = [&apos;Dora&apos;, &apos;Bella&apos;];
+      }
+
+      Person.prototype = {
+          constructor: Person,
+          sayName: function() {
+              alert(this.name);
+          }
+      }
+
+      var person1 = new Person(&apos;Mona&apos;, 18, &apos;Font Engineer&apos;);
+      var person2 = new Person(&apos;Dan&apos;, 32, &apos;Designer&apos;);
+
+      person1.friends.push(&apos;Bob&apos;);
+      alert(person1.friends); //&quot;Dora&apos;, &apos;Bella&apos;,&apos;Bob&apos;&quot;
+      alert(person2.friends); //&quot;Dora&apos;, &apos;Bella&apos;&quot;
+      alert(person1.friends == person2.friends) //false
+      alert(person1.sayName == person2.sayName) //true
+</code></pre><p>这种混合模式是目前运用最广泛的一种创建自定义的方法。</p>
+<p>####5.动态原型模式</p>
+<p>动态原型模式把所有信息封装在构造函数中，而在必要的情况下在构造函数中初始化原型。具体做法是检查某个应该存在的方法是否有效，来决定是否需要初始化原型。举个例子：</p>
+<pre><code>  function Person(name, age, job) {
+      this.name = name;
+      this.age = age;
+      this.job = job;
+      this.friends = [&apos;Dora&apos;, &apos;Bella&apos;];
+
+      if (typeof this.sayName != &apos;function&apos;) {
+          Person.prototype.sayName = function(){
+              alert(this.name);
+          };
+      }
+  }
+
+var person = new Person(&apos;Mona&apos;, 18, &apos;Font Engineer&apos;);
+person.sayName(); //&apos;Mona&apos;
+</code></pre><p>在初次调用构造函数时才执行，此后，原型已初始化，不需要再做修改。对原型的修改能够立即在实例中得到反映。if 语句检查可以是初始化之后应该存在的属性和方法，不用检查每个属性和方法。但是不能使用对象字面量重写原型，因为如果已经创建了实例的情况下重写原型，会切断现有实例与新原型之间的联系。</p>
+<p>####6.寄生构造函数模式</p>
+<p>基本思想是创建一个函数，该函数用于封装创建对象的代码，然后在返回新创建的对象，其实跟工厂模式一模一样。如果我们想创建一个具有额外方法的对象，可以使用寄生构造函数模式。举个例子：</p>
+<pre><code class="JavaScript"><span class="function"><span class="keyword">function</span> <span class="title">SpecialArray</span>(<span class="params"></span>) </span>{
+    <span class="comment">//创建数组</span>
+    <span class="keyword">var</span> values = <span class="keyword">new</span> <span class="built_in">Array</span>();
+    <span class="comment">//添加值</span>
+    values.push.apply(values, <span class="built_in">arguments</span>);
+    <span class="comment">//添加方法</span>
+    values.toPipedString = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+        <span class="keyword">return</span> <span class="keyword">this</span>.join(<span class="string">'|'</span>);
+    }
+    <span class="comment">//返回数组</span>
+    <span class="keyword">return</span> values；
+}
+
+<span class="keyword">var</span> colors = <span class="keyword">new</span> SpecialArray(<span class="string">'red'</span>, <span class="string">'pink'</span>, <span class="string">'blue'</span>);
+alert(colors.toPipedString()); <span class="comment">//'red|pink|blue'</span>
+alert(colors <span class="keyword">instanceof</span> SpecialArray); <span class="comment">//false</span>
+</code></pre>
+<p>缺陷：返回的对象与构造函数或者构造函数的原型属性之间没有关系，也就是说，构造函数返回的对象与构造函数外部创建的对象没有什么不同，不能依赖instanceof操作符来确定对象类型。</p>
+<p>####7.稳妥构造函数模式</p>
+<p>所谓稳妥对象是指没有公共属性，而且方法不引用this的对象。稳妥构造函数模式与寄生构造函数模式类似，但是不同的是前者新创建对象的实例方法不引用this，不使用new操作符调用构造函数。举个例子：</p>
+<pre><code>function Person(name, age, job) {
+    //创建要返回的对象
+    var o = new Object();
+    //定义私有变量或者函数
+    o.name = name;
+    o.age = age;
+    o.job = job;
+    //添加方法
+    o.sayName = function() {
+        alert(name);
+    };
+    //返回对象
+    return o;
+}
+
+var person = new Person(&apos;Mona&apos;, 18, &apos;Font Engineer&apos;);
+person.sayName(); //&apos;Mona&apos;
+</code></pre><p>变量中保存的稳妥对象，除了调用私有方法外，没有别的办法访问传入到构造函数的原始数据。因此，适合在安全环境中或者防止数据被其他程序改动时使用。同样，返回的对象与构造函数或者构造函数的原型属性之间没有关系，不能依赖instanceof操作符来确定对象类型。        </p>
+
+      
+    </div>
+    <footer>
+      
+        
+
+        <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+<nav id="pagination" >
+    
+    
+    <a href="/2016/07/02/css_0001/" class="alignright next" >下一页</a>
+    
+    <div class="clearfix"></div>
+</nav>
+<div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    /*
+    var disqus_config = function () {
+        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        
+        s.src = '//mona98.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+
+<div id="site-info">
+    <div id="logo-wrap" class="sidebar-item">
+      <a href="/"><div id="logo"></div></a>
+    </div>
+    <h6>雪觅音</h6>
+    <p>前端小新养成记</p>
+    
+    <div class="site-nav sidebar-item">
+      <ul>
+      
+        <li>
+          <a href="/">首页</a>
+        </li>
+      
+        <li>
+          <a href="/archives">归档</a>
+        </li>
+        
+        <li>
+          <a href="/category">分类</a>
+        </li>
+
+        <li>
+          <a href="/">友链</a>
+        </li>
+
+        <li>
+          <a href="/">关于</a>
+        </li>
+      
+      </ul>
+    </div>
+    <div id="social-wrap" class="clearfix sidebar-item">
+    
+      <div class="social-item">
+        <a id="nav-weibo-link" class="nav-icon" href="http://weibo.com/u/2371658693/home?wvr=5&lf=reg" title="Weibo" target="_blank"></a>
+      </div>
+    
+    
+      <div class="social-item">
+        <a id="nav-github-link" class="nav-icon" href="https://github.com/encrane" title="Github" target="_blank"></a>
+      </div>
+    
+    
+      <div class="social-item">
+        <a id="nav-rss-link" class="nav-icon" href="http://mona98.com/atom.xml" title="rss" target="_blank"></a>
+      </div>
+    
+    
+    </div>
+  </div>
+
+  
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/tool/" style="font-size: 10px;">tool</a>
+  </div>
+</div>
+
+
+  <div class="widget tag">
+<h3 class="title">友情链接</h3>
+<ul class="entry">
+<li><a target="_blank" href="https://www.anotherhome.net/" title="anotherhome">anotherhome</a></li>
+</ul>
+</div>
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="aligncenter">
+  
+  &copy; 2016 Beibei Deng
+  
+   <p>Made with <i class="fa fa-heart red-heart"></i> using <a href="https://github.com/encrane/encrane.github.io">Github</a>  Powered by <a href="https://hexo.io/">Hexo</a></p>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
